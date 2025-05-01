@@ -1,6 +1,3 @@
-Here's a README file for your banking system project, formatted similarly to your SMS/Email Spam Classifier README:  
-
-```plaintext
 # 📌 Banking System  
 
 ## 📝 Description  
