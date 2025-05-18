@@ -1,4 +1,6 @@
 # calculations.py
+import random
+from database import *
 from tkinter import messagebox
 from tkinter import *
 
@@ -66,31 +68,62 @@ class Calculations:
             messagebox.showerror("Error", "Customer Details are required")
             return
 
-        cosmetic_price = self.cosmeticpriceEntry.get().strip()
-        grocery_price = self.grocerypriceEntry.get().strip()
-        colddrink_price = self.drinkspriceEntry.get().strip()
-
-        if cosmetic_price == '' and grocery_price == '' and colddrink_price == '':
-            messagebox.showerror("Error", "No products are selected")
-            return
+        # Generate random bill number
+        bill_no = str(random.randint(1000, 9999))
 
         self.textarea.delete('1.0', END)
         self.textarea.insert(END, "\n\t*** WELCOME TO THE STORE ***\n")
-        self.textarea.insert(END, f"\nCustomer Name : {customer_name}")
-        self.textarea.insert(END, f"\nPhone Number  : {customer_phone}")
+        self.textarea.insert(END, f"\nBill No      : {bill_no}")
+        self.textarea.insert(END, f"\nCustomer Name: {customer_name}")
+        self.textarea.insert(END, f"\nPhone Number : {customer_phone}")
         self.textarea.insert(END, "\n===================================")
         self.textarea.insert(END, "\nProduct\t\tQty\tPrice")
         self.textarea.insert(END, "\n===================================\n")
 
-        # Example: Adding cosmetic items
-        cosmetic_prices = [20, 50, 100, 150, 80, 60]
-        cosmetic_item_names = ['Bath Soap', 'Face Cream', 'Face Wash', 'Hair Spray', 'Hair Gel', 'Baby Lotion']
-        for name, price in zip(cosmetic_item_names, cosmetic_prices):
-            qty = int(self.cosmetic_entries[name].get() or 0)
-            if qty > 0:
-                self.textarea.insert(END, f"{name}\t\t{qty}\t{qty * price}\n")
+        bill_data = {
+            'bill_no': bill_no,
+            'name': customer_name,
+            'phone': customer_phone,
+            'total': 0,
+            'bill_text': '',
+        }
 
-        # Repeat similar for grocery and colddrinks
+        # Helper function to process items
+        def process_items(entries, names, prices):
+            total = 0
+            for name, price in zip(names, prices):
+                qty = int(entries[name].get() or 0)
+                bill_data[name] = qty
+                if qty > 0:
+                    line_total = qty * price
+                    total += line_total
+                    self.textarea.insert(END, f"{name}\t\t{qty}\t{line_total}\n")
+            return total
+
+        # Process each section
+        total_cosmetics = process_items(self.cosmetic_entries,
+                                        ['Bath Soap', 'Face Cream', 'Face Wash', 'Hair Spray', 'Hair Gel',
+                                         'Baby Lotion'],
+                                        [20, 50, 100, 150, 80, 60])
+        total_grocery = process_items(self.grocery_entries,
+                                      ['Rice', 'Oil', 'Daal', 'Wheat', 'Sugar', 'Tea'],
+                                      [30, 100, 120, 50, 140, 80])
+        total_drinks = process_items(self.colddrinks_entries,
+                                     ['Maaza', 'Pepsi', 'Sprite', 'Dew', 'Frooti', 'Coca Cola'],
+                                     [50, 20, 30, 20, 45, 90])
+
+        grand_total = total_cosmetics + total_grocery + total_drinks
+        self.textarea.insert(END, "\n===================================\n")
+        self.textarea.insert(END, f"Total Amount: {grand_total} Rs\n")
+        self.textarea.insert(END, "===================================\n")
+
+        # Store final values in bill_data
+        bill_data['total'] = grand_total
+        bill_data['bill_text'] = self.textarea.get('1.0', END)
+
+        # Save to database
+        save_bill(bill_data)
+        messagebox.showinfo("Success", f"Bill No {bill_no} saved successfully!")
 
     def send_email(self):
         pass

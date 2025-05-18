@@ -1,110 +1,106 @@
-Here’s a `README.md` file for the retail billing system project you uploaded, based on the files `calculations.py` and `retail_bill_management.py`, including all key thresholds, formulas, and structure.
-
----
-
-### 📄 **README.md**
-
-````markdown
 # 🧾 Retail Billing System
 
-A simple retail billing system built using Python and Tkinter that calculates item-wise totals, taxes, and generates a bill for the customer. This project provides a GUI for entering product quantities, viewing total prices, and generating formatted bills.
+A GUI-based retail billing system built using **Python** and **Tkinter**, backed by a **MySQL** database. This application is designed for managing customer bills, calculating totals and taxes, and storing bill data for later retrieval.
 
----
+## 🛠 Features
 
-## 🛒 Features
+- Customer detail input (Name, Phone, Bill Number)
+- Product input for:
+  - Cosmetics
+  - Groceries
+  - Cold Drinks
+- Automatic price and tax calculation per category
+- Bill generation with a unique bill number
+- Bill display and printing area
+- Save bill data to MySQL database
+- Search and retrieve past bills by bill number
+- Placeholder buttons for email and print functionality (ready to be implemented)
 
-- User-friendly GUI interface
-- Separate sections for Cosmetics, Grocery, and Cold Drinks
-- Automatic calculation of total prices and applicable taxes
-- Bill generation with customer details and item breakdown
-- Fields for entering customer name and phone number
-- Buttons for total calculation, bill generation, print, email, and clear (some features are placeholders)
+## 📦 Project Structure
 
----
-
-## 📊 Product Categories & Prices
-
-### **Cosmetics**
-| Item         | Price (₹) |
-|--------------|-----------|
-| Bath Soap    | 20        |
-| Face Cream   | 50        |
-| Face Wash    | 100       |
-| Hair Spray   | 150       |
-| Hair Gel     | 80        |
-| Baby Lotion  | 60        |
-
-**Tax Rate:** `12%` → `cosmetictax = total_cosmetic * 0.12`
-
----
-
-### **Grocery**
-| Item     | Price (₹) |
-|----------|-----------|
-| Rice     | 30        |
-| Oil      | 100       |
-| Daal     | 120       |
-| Wheat    | 50        |
-| Sugar    | 140       |
-| Tea      | 80        |
-
-**Tax Rate:** `5%` → `grocerytax = total_grocery * 0.05`
-
----
-
-### **Cold Drinks**
-| Item       | Price (₹) |
-|------------|-----------|
-| Maaza      | 50        |
-| Pepsi      | 20        |
-| Sprite     | 30        |
-| Dew        | 20        |
-| Frooti     | 45        |
-| Coca Cola  | 90        |
-
-**Tax Rate:** `8%` → `colddrinkstax = total_colddrinks * 0.08`
-
----
-
-## 📐 Key Functions
-
-### `total()`
-- Calculates category-wise totals:
-  ```python
-  total_cosmetic = sum(qty * price for each cosmetic item)
-  total_grocery = sum(qty * price for each grocery item)
-  total_colddrinks = sum(qty * price for each colddrink item)
+```plaintext
+.
+├── calculations.py            # Handles pricing logic and bill generation
+├── database.py                # Connects to MySQL and manages bill data storage/retrieval
+├── retail_bill_management.py  # Main GUI logic using Tkinter
 ````
 
-* Computes respective taxes using defined rates.
-* Updates UI fields with totals and tax amounts.
+## 🧰 Requirements
 
-### `generate_bill()`
+* Python 3.x
+* Tkinter (usually bundled with Python)
+* MySQL server
+* Python packages:
 
-* Validates customer name and phone number
-* Displays selected items with quantities and total prices in the bill area
-* Outputs structured bill text format
+  * `mysql-connector-python`
 
----
+Install dependencies:
 
-## 📌 Technologies Used
-
-* Python 🐍
-* Tkinter (GUI)
-
----
-
-## 📂 Files
-
-* `retail_bill_management.py` – GUI interface and frame layout
-* `calculations.py` – Logic for total, bill generation, and validation
-
----
-
-## 🧑‍💻 Future Enhancements
-
-* Implement `send_email()` and `print_bill()` features
-* Add persistent storage (e.g., SQLite) for customer history
-* Add invoice PDF export
-
+```bash
+pip install mysql-connector-python
 ```
+
+## 🗄️ MySQL Setup
+
+Ensure your MySQL database is running and create a database and table as follows:
+
+```sql
+CREATE DATABASE billing_system;
+
+USE billing_system;
+
+CREATE TABLE bills (
+    bill_no VARCHAR(10) PRIMARY KEY,
+    customer_name VARCHAR(100),
+    phone VARCHAR(20),
+    bath_soap INT,
+    face_cream INT,
+    face_wash INT,
+    hair_spray INT,
+    hair_gel INT,
+    baby_lotion INT,
+    rice INT,
+    oil INT,
+    daal INT,
+    wheat INT,
+    sugar INT,
+    tea INT,
+    maaza INT,
+    pepsi INT,
+    sprite INT,
+    dew INT,
+    frooti INT,
+    coca_cola INT,
+    total_price INT,
+    bill_text TEXT
+);
+```
+
+> Make sure your database credentials in `database.py` match your MySQL setup:
+
+```python
+host="localhost",
+user="root",
+password="YOUR_PASSWORD",
+database="billing_system"
+```
+
+## 🚀 Running the App
+
+```bash
+python retail_bill_management.py
+```
+
+The application window will launch, allowing entry of customer and product details. Click `Total` to calculate prices, `Bill` to generate and save the bill, and `Search` to retrieve a previous bill using its number.
+
+## ✅ To-Do
+
+* Implement email functionality (`send_email`)
+* Add support for printing bills (`print_bill`)
+* Enhance UI and error handling
+
+---
+
+## 🧑‍💻 Author
+
+* Developed by Madhavi as part of a retail management automation project.

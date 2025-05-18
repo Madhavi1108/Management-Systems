@@ -1,7 +1,6 @@
 from tkinter import *
 from calculations import *
 
-
 # ---------------- Main Window ----------------
 root = Tk()
 root.title('Retail Billing System')
@@ -31,8 +30,20 @@ phone_entry = create_label_entry(customer_details_frame, 'Phone Number', 0, 2)
 bill_entry = create_label_entry(customer_details_frame, 'Bill No.', 0, 4)
 
 
+def search_bill_command():
+    bill_no = bill_entry.get().strip()
+    result = search_bill(bill_no)
+    if result:
+        bill_text = result[-1]  # bill_text is last column
+        textarea.delete('1.0', END)
+        textarea.insert(END, bill_text)
+        messagebox.showinfo("Found", f"Bill No {bill_no} loaded successfully!")
+    else:
+        messagebox.showerror("Not Found", "Bill not found in database.")
+
 Button(customer_details_frame, text='SEARCH', font=('Arial', 12, 'bold'),
-       bd=7, width=10).grid(row=0, column=6, padx=20, pady=5)
+       bd=7, width=10, command=search_bill_command).grid(row=0, column=6, padx=20, pady=5)
+
 
 # ---------------- Product Frames ----------------
 productsFrame = Frame(root, bg='gray20')
@@ -49,7 +60,6 @@ def create_product_frame(parent, title, items, row, column):
               bg='gray20', fg='white').grid(row=i, column=0, pady=5, padx=5)
         entry = Entry(frame, font=('times new roman', 15), width=10, bd=5)
         entry.grid(row=i, column=1, pady=5, padx=5)
-        entry.insert(0,0)
         entries[item] = entry
     return entries
 
