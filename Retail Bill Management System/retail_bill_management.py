@@ -1,4 +1,3 @@
-from tkinter import *
 from calculations import *
 
 # ---------------- Main Window ----------------
@@ -27,7 +26,8 @@ def create_label_entry(frame, text, row, column):
 
 name_entry = create_label_entry(customer_details_frame, 'Name', 0, 0)
 phone_entry = create_label_entry(customer_details_frame, 'Phone Number', 0, 2)
-bill_entry = create_label_entry(customer_details_frame, 'Bill No.', 0, 4)
+email_entry = create_label_entry(customer_details_frame, 'Email', 1, 0)
+bill_entry = create_label_entry(customer_details_frame, 'Bill No.', 1, 2)
 
 
 def search_bill_command():
@@ -110,7 +110,7 @@ s = Calculations(cosmetic_entries, grocery_entries, colddrinks_entries,
                  cosmeticpriceEntry, cosmetictaxEntry,
                  grocerypriceEntry, grocerytaxEntry,
                  drinkspriceEntry, colddrinkstaxEntry,
-                 name_entry, phone_entry, textarea)
+                 name_entry, phone_entry, email_entry, textarea)
 
 
 # ---------------- Action Buttons ----------------

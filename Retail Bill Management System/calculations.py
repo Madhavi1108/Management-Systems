@@ -1,17 +1,22 @@
 # calculations.py
 import random
+import smtplib
+from email.message import EmailMessage
+
 from database import *
 from tkinter import messagebox
 from tkinter import *
+from reportlab.lib.pagesizes import letter
+from reportlab.pdfgen import canvas
+import os
 
 class Calculations:
     def __init__(self, cosmetic_entries, grocery_entries, colddrinks_entries,
                  cosmeticpriceEntry, cosmetictaxEntry,
                  grocerypriceEntry, grocerytaxEntry,
                  drinkspriceEntry, colddrinkstaxEntry,
-                 name_entry, phone_entry, textarea):
+                 name_entry, phone_entry,email_entry, textarea):
 
-        self.textarea = textarea
         # Product Entries
         self.cosmetic_entries = cosmetic_entries
         self.grocery_entries = grocery_entries
@@ -28,6 +33,8 @@ class Calculations:
         # Customer Details Entries
         self.name_entry = name_entry
         self.phone_entry = phone_entry
+        self.email_entry = email_entry
+        self.textarea = textarea
 
     def total(self):
         # Cosmetic
@@ -92,6 +99,7 @@ class Calculations:
         def process_items(entries, names, prices):
             total = 0
             for name, price in zip(names, prices):
+
                 qty = int(entries[name].get() or 0)
                 bill_data[name] = qty
                 if qty > 0:
@@ -112,9 +120,22 @@ class Calculations:
                                      ['Maaza', 'Pepsi', 'Sprite', 'Dew', 'Frooti', 'Coca Cola'],
                                      [50, 20, 30, 20, 45, 90])
 
-        grand_total = total_cosmetics + total_grocery + total_drinks
+        # Calculate taxes
+        cosmetic_tax = total_cosmetics * 0.12
+        grocery_tax = total_grocery * 0.05
+        drinks_tax = total_drinks * 0.08
+
+        # Insert tax details in bill
+        self.textarea.insert(END, "\n-----------------------------------\n")
+        self.textarea.insert(END, f"Cosmetic Tax\t\t\t{cosmetic_tax:.2f}")
+        self.textarea.insert(END, f"\nGrocery Tax\t\t\t{grocery_tax:.2f}")
+        self.textarea.insert(END, f"\nCold Drink Tax\t\t\t{drinks_tax:.2f}")
+
+        # Grand total including tax
+        grand_total = total_cosmetics + total_grocery + total_drinks + cosmetic_tax + grocery_tax + drinks_tax
+
         self.textarea.insert(END, "\n===================================\n")
-        self.textarea.insert(END, f"Total Amount: {grand_total} Rs\n")
+        self.textarea.insert(END, f"Total Amount: {grand_total:.2f} Rs\n")
         self.textarea.insert(END, "===================================\n")
 
         # Store final values in bill_data
@@ -126,10 +147,73 @@ class Calculations:
         messagebox.showinfo("Success", f"Bill No {bill_no} saved successfully!")
 
     def send_email(self):
-        pass
+        customer_email = self.email_entry.get().strip()
+        bill_content = self.textarea.get('1.0', END).strip()
+
+        if not customer_email:
+            messagebox.showerror("Error", "Email address is required to send the bill.")
+            return
+
+        if not bill_content:
+            messagebox.showwarning("Warning", "No bill to send. Generate the bill first.")
+            return
+
+        try:
+            msg = EmailMessage()
+            msg['Subject'] = 'Your Bill from Retail Store'
+            msg['From'] = 'mnaik8166@gmail.com'
+            msg['To'] = customer_email
+            msg.set_content(bill_content)
+
+            server = smtplib.SMTP('smtp.gmail.com', 587)
+            server.starttls()
+            server.login('mnaik8166@gmail.com', 'wautpgwxxxtvgssc')
+            server.send_message(msg)
+            server.quit()
+            messagebox.showinfo("Email Sent", f"Bill sent to {customer_email}")
+        except Exception as e:
+            messagebox.showerror("Email Error", str(e))
 
     def print_bill(self):
-        pass
+        bill_text = self.textarea.get('1.0', END).strip()
+        if not bill_text:
+            messagebox.showwarning("Warning", "No bill to print.")
+            return
+
+        try:
+            # Extract bill number from the bill content
+            lines = bill_text.splitlines()
+            bill_no_line = next((line for line in lines if "Bill No" in line), None)
+            bill_no = bill_no_line.split(":")[1].strip() if bill_no_line else "unknown"
+
+            filename = f"bill_{bill_no}.pdf"
+            file_path = os.path.join(os.getcwd(), filename)
+
+            # Create a PDF
+            c = canvas.Canvas(file_path, pagesize=letter)
+            width, height = letter
+            y = height - 40  # start from top
+
+            for line in lines:
+                c.drawString(50, y, line)
+                y -= 20  # move down per line
+
+            c.save()
+            messagebox.showinfo("PDF Saved", f"Bill saved as {filename}")
+        except Exception as e:
+            messagebox.showerror("Error", f"Could not save bill as PDF: {str(e)}")
 
     def clear_fields(self):
-        pass
+        for entry_dict in [self.cosmetic_entries, self.grocery_entries, self.colddrinks_entries]:
+            for entry in entry_dict.values():
+                entry.delete(0, END)
+
+        for field in [self.cosmeticpriceEntry, self.cosmetictaxEntry,
+                      self.grocerypriceEntry, self.grocerytaxEntry,
+                      self.drinkspriceEntry, self.colddrinkstaxEntry]:
+            field.delete(0, END)
+
+        self.name_entry.delete(0, END)
+        self.phone_entry.delete(0, END)
+        self.textarea.delete('1.0', END)
+
