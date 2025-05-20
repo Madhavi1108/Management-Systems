@@ -20,14 +20,14 @@ customer_details_frame.pack(fill=X, pady=5)
 def create_label_entry(frame, text, row, column):
     Label(frame, text=text, font=('times new roman', 15, 'bold'),
           bg='gray20', fg='white', bd=8, relief=GROOVE).grid(row=row, column=column, padx=10)
-    entry = Entry(frame, font=('times new roman', 15), bd=7, width=18)
+    entry = Entry(frame, font=('times new roman', 15), bd=7, width=15)
     entry.grid(row=row, column=column+1, padx=5)
     return entry
 
 name_entry = create_label_entry(customer_details_frame, 'Name', 0, 0)
 phone_entry = create_label_entry(customer_details_frame, 'Phone Number', 0, 2)
-email_entry = create_label_entry(customer_details_frame, 'Email', 1, 0)
-bill_entry = create_label_entry(customer_details_frame, 'Bill No.', 1, 2)
+email_entry = create_label_entry(customer_details_frame, 'Email', 0, 4)
+bill_entry = create_label_entry(customer_details_frame, 'Bill No.', 0, 6)
 
 
 def search_bill_command():
@@ -42,7 +42,7 @@ def search_bill_command():
         messagebox.showerror("Not Found", "Bill not found in database.")
 
 Button(customer_details_frame, text='SEARCH', font=('Arial', 12, 'bold'),
-       bd=7, width=10, command=search_bill_command).grid(row=0, column=6, padx=20, pady=5)
+       bd=7, width=7, command=search_bill_command).grid(row=0, column=8, padx=20, pady=5)
 
 
 # ---------------- Product Frames ----------------
@@ -134,6 +134,3 @@ for idx, label in enumerate(buttons):
 
 # ---------------- Main Loop ----------------
 root.mainloop()
-
-
-# Map labels to functions

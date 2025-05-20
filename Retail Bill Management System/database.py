@@ -1,5 +1,10 @@
+# database.py
+from dotenv import load_dotenv
 import mysql.connector
+import os
 from tkinter import messagebox
+from dotenv import load_dotenv
+load_dotenv(dotenv_path="file.env")
 
 product_list = [
     'Bath Soap', 'Face Cream', 'Face Wash', 'Hair Spray', 'Hair Gel', 'Baby Lotion',
@@ -9,10 +14,10 @@ product_list = [
 
 def connect_db():
     return mysql.connector.connect(
-    host="localhost",
-    user="root",
-    password="Mara1406#",
-    database="billing_system"
+        host=os.getenv("DB_HOST"),
+        user=os.getenv("DB_USER"),
+        password=os.getenv("DB_PASS"),
+        database=os.getenv("DB_NAME")
     )
 
 def search_bill(bill_no):

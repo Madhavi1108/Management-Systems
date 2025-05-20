@@ -1,152 +1,143 @@
-# 🧾 Retail Billing System
+# 🧾 Retail Billing System 🛒
 
-A desktop-based Retail Billing System built using **Python**, **Tkinter**, and **MySQL**. It allows store owners to generate customer bills with tax calculation, print them as PDFs, send them via email, and maintain a searchable billing history.
-
----
-
-## ✨ Features
-
-* 📋 **Product Entry & Pricing**: Supports Cosmetics, Groceries, and Cold Drinks with customizable quantities.
-* 🧮 **Automated Billing**: Calculates product totals, applies category-specific taxes, and computes the final amount.
-* 🧾 **Bill Generation**: Generates itemized bills with formatting.
-* 📬 **Email Bill**: Sends generated bills directly to the customer via email.
-* 🖨️ **Print as PDF**: Saves bill content as a PDF file using `reportlab`.
-* 🔍 **Search Past Bills**: Lookup and reload previous bills from the database.
-* 🧼 **Clear Interface**: Reset all fields for a new customer.
+A comprehensive desktop-based Retail Billing System developed using Python, Tkinter for the GUI, and MySQL for database management. This application empowers store owners to efficiently generate customer bills, calculate taxes, print professional PDF invoices, send bills via email, and maintain a searchable history of all transactions.
 
 ---
 
-## 🏗️ Tech Stack
+## ✨ Key Features
 
-* **Frontend/UI**: Tkinter
-* **Backend/Logic**: Python (OOP based)
-* **Database**: MySQL (via `mysql-connector-python`)
-* **PDF Generation**: ReportLab
-* **Email Support**: `smtplib` with Gmail SMTP
-
----
-
-## 🔧 Installation
-
-### 1. Clone the repository
-
-```bash
-git clone https://github.com/yourusername/retail-billing-system.git
-cd retail-billing-system
-```
-
-### 2. Install dependencies
-
-```bash
-pip install mysql-connector-python reportlab
-```
-
-### 3. Setup MySQL Database
-
-Run the following SQL in your MySQL client to create the database:
-
-```sql
-CREATE DATABASE billing_system;
-
-USE billing_system;
-
-CREATE TABLE bills (
-    bill_no VARCHAR(10) PRIMARY KEY,
-    customer_name VARCHAR(100),
-    phone VARCHAR(15),
-    bath_soap INT,
-    face_cream INT,
-    face_wash INT,
-    hair_spray INT,
-    hair_gel INT,
-    baby_lotion INT,
-    rice INT,
-    oil INT,
-    daal INT,
-    wheat INT,
-    sugar INT,
-    tea INT,
-    maaza INT,
-    pepsi INT,
-    sprite INT,
-    dew INT,
-    frooti INT,
-    coca_cola INT,
-    total_price FLOAT,
-    bill_text TEXT
-);
-```
-
-> ✅ **Note**: Ensure your MySQL user/password is correctly set in `database.py`.
+* 🛍️ **Intuitive Product Management**: Easily add and manage products across categories like Cosmetics, Groceries, and Cold Drinks, with support for variable quantities.
+* 🧮 **Automated Billing & Tax Calculation**: Automatically calculates sub-totals for each product category, applies relevant taxes (e.g., GST), and computes the final bill amount.
+* 📄 **Professional Bill Generation**: Creates well-formatted, itemized bills ready for customers.
+* 📧 **Email Integration**: Seamlessly send generated bills directly to customers' email addresses using SMTP.
+* 🖨️ **PDF Export**: Save bills as high-quality PDF files for printing or digital archiving, powered by `reportlab`.
+* 🔎 **Search & Retrieve Past Bills**: Quickly look up and reload previous bills from the MySQL database using a bill number.
+* 🔄 **Clear & Reset**: Easily clear all input fields to start a new billing transaction.
+* 🔐 **Secure Configuration**: Uses environment variables for sensitive information like database credentials and email passwords.
 
 ---
 
-## 🔐 Configuration
+## 🛠️ Tech Stack
 
-### 1. Email Credentials
-
-Update the sender email and app password in `calculations.py`:
-
-```python
-msg['From'] = 'your_email@gmail.com'
-server.login('your_email@gmail.com', 'your_app_password')
-```
-
-Use [Gmail App Passwords](https://support.google.com/accounts/answer/185833) for better security.
-
-### 2. MySQL Connection
-
-Modify the credentials in `database.py`:
-
-```python
-connect_db():
-    return mysql.connector.connect(
-        host="localhost",
-        user="your_user",
-        password="your_password",
-        database="billing_system"
-    )
-```
+* **Programming Language**: Python 3.x
+* **GUI Framework**: Tkinter
+* **Database**: MySQL (interfaced with `mysql-connector-python`)
+* **PDF Generation**: `reportlab`
+* **Email Functionality**: `smtplib` (typically with Gmail SMTP)
+* **Environment Management**: `python-dotenv` for managing configuration variables.
 
 ---
 
-## ▶️ Running the App
+## 🖼️ Screenshots
 
-Just run the main file:
+*(Placeholder: Add a few screenshots of your application here to showcase its interface and functionality. For example: Main Billing Window, Product Entry, Bill Preview, Search Functionality)*
 
-```bash
-python retail_bill_management.py
-```
-
----
-
-## 📂 Project Structure
-
-```bash
-├── calculations.py            # All billing and logic operations
-├── database.py                # MySQL connection and bill saving/search
-├── retail_bill_management.py # GUI layout and main loop
-└── README.md
-```
+**Example:**
+`![Main Window](link_to_your_screenshot.png)`
 
 ---
 
-## 📌 Future Enhancements
+## 📋 Prerequisites
 
-* CSV/Excel Export
-* Admin login & multi-user access
-* Product management dashboard
-* Error logging and audit history
+Before you begin, ensure you have the following installed:
 
----
-
-## 🧑‍💻 Author
-
-Developed by Madhavi
-Feel free to reach out via madhavi09307@gmail.com
+* **Python 3.x**: Download from [python.org](https://www.python.org/downloads/)
+* **MySQL Server**: Download from [MySQL Community Downloads](https://dev.mysql.com/downloads/mysql/)
+* **pip** (Python package installer, usually comes with Python)
 
 ---
 
-## 📝 License
+## 🚀 Installation
 
-This project is open-source under the MIT License.
+1.  **Clone the repository:**
+    ```bash
+    git clone [https://github.com/yourusername/retail-billing-system.git](https://github.com/yourusername/retail-billing-system.git)
+    cd retail-billing-system
+    ```
+    *(Replace `yourusername` with your actual GitHub username)*
+
+2.  **Create a virtual environment (recommended):**
+    ```bash
+    python -m venv venv
+    ```
+    * On Windows, activate it using: `venv\Scripts\activate`
+    * On macOS/Linux, activate it using: `source venv/bin/activate`
+
+3.  **Install dependencies:**
+    ```bash
+    pip install -r requirements.txt
+    ```
+    *(You'll need to create a `requirements.txt` file. See section below)*
+
+4.  **Create `requirements.txt`:**
+    Create a file named `requirements.txt` in the root of your project with the following content:
+    ```
+    mysql-connector-python
+    reportlab
+    python-dotenv
+    ```
+
+---
+
+## ⚙️ Configuration
+
+### 1. Setup MySQL Database
+
+* Ensure your MySQL server is running.
+* Connect to your MySQL server using a client (e.g., MySQL Workbench, `mysql` command line).
+* Run the following SQL commands to create the necessary database and table:
+
+    ```sql
+    CREATE DATABASE IF NOT EXISTS billing_system_db;
+
+    USE billing_system_db;
+
+    CREATE TABLE IF NOT EXISTS bills (
+        bill_no VARCHAR(10) PRIMARY KEY,
+        customer_name VARCHAR(100) NOT NULL,
+        phone VARCHAR(15) NOT NULL,
+        email VARCHAR(100),
+        bath_soap INT DEFAULT 0,
+        face_cream INT DEFAULT 0,
+        face_wash INT DEFAULT 0,
+        hair_spray INT DEFAULT 0,
+        hair_gel INT DEFAULT 0,
+        baby_lotion INT DEFAULT 0,
+        rice INT DEFAULT 0,
+        oil INT DEFAULT 0,
+        daal INT DEFAULT 0,
+        wheat INT DEFAULT 0,
+        sugar INT DEFAULT 0,
+        tea INT DEFAULT 0,
+        maaza INT DEFAULT 0,
+        pepsi INT DEFAULT 0,
+        sprite INT DEFAULT 0,
+        dew INT DEFAULT 0,
+        frooti INT DEFAULT 0,
+        coca_cola INT DEFAULT 0,
+        total_price FLOAT NOT NULL,
+        cosmetic_tax FLOAT,
+        grocery_tax FLOAT,
+        drinks_tax FLOAT,
+        bill_text TEXT NOT NULL,
+        bill_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
+    ```
+    *Note: The table structure has been slightly enhanced for clarity and to store more details like individual taxes and bill date.*
+
+### 2. Environment Variables (`.env` file)
+
+Create a file named `.env` (or `file.env` as used in your `calculations.py` and `database.py`) in the root directory of your project. Add your MySQL and Email credentials to this file:
+
+```env
+# .env or file.env
+
+# MySQL Database Configuration
+DB_HOST=localhost
+DB_USER=your_mysql_user
+DB_PASS=your_mysql_password
+DB_NAME=billing_system_db
+
+# Email Configuration (for Gmail)
+EMAIL_USER=your_email@gmail.com
+EMAIL_PASS=your_gmail_app_password
