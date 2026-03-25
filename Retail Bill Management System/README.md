@@ -25,16 +25,6 @@ A comprehensive desktop-based Retail Billing System developed using Python, Tkin
 * **PDF Generation**: `reportlab`
 * **Email Functionality**: `smtplib` (typically with Gmail SMTP)
 * **Environment Management**: `python-dotenv` for managing configuration variables.
-
----
-
-## 🖼️ Screenshots
-
-*(Placeholder: Add a few screenshots of your application here to showcase its interface and functionality. For example: Main Billing Window, Product Entry, Bill Preview, Search Functionality)*
-
-**Example:**
-`![Main Window](link_to_your_screenshot.png)`
-
 ---
 
 ## 📋 Prerequisites
