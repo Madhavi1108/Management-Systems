@@ -5,7 +5,7 @@ A well-organized collection of **Python-based management system projects** built
 This repository serves as a **central portfolio of real-world management applications**, covering multiple business and productivity workflows using clean Python implementations.
 
 ---
-
+ 
 ## 🛠️ Tech Stack
 
 * **Language:** Python
