@@ -13,7 +13,7 @@ This repository serves as a **central portfolio of real-world management applica
 * **Database:** MySQL
 * **Version Control:** Git & GitHub
 * **Core Concepts:** OOP, CRUD, File Handling, SQL Queries
-
+ 
 ---
 
 ## 🎯 Repository Highlights
