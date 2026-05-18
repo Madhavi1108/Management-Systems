@@ -17,7 +17,7 @@ This repository serves as a **central portfolio of real-world management applica
 ---
 
 ## 🎯 Repository Highlights
-
+ 
 * Multiple real-world management system implementations
 * Structured folder-wise project organization
 * Clean and reusable Python code
