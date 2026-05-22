@@ -1,7 +1,3 @@
-Here’s a more professional, polished, and GitHub-ready version of your README section:
-
----
-
 # 🧾 Retail Billing System
 
 A feature-rich desktop-based **Retail Billing System** built using **Python**, **Tkinter**, and **MySQL**.
